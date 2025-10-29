@@ -1,0 +1,107 @@
+<mat-sidenav-container class="layout-container">
+  <mat-sidenav
+    #sidenav
+    class="sidebar"
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [opened]="!isScreenSmall || sidebarOpen"
+    (openedChange)="sidebarOpen = $event"
+  >
+    <div class="sidebar-inner-content">
+  
+      <div class="user-info">
+        <h1>{{ isAdmin() ? 'Admin Panel' : 'Panel de Ventas' }}</h1>
+        <p class="user-details" *ngIf="username">
+          <mat-icon class="user-icon">account_circle</mat-icon>
+          <span>{{ username }}</span>
+        </p>
+        <p class="user-role" *ngIf="userRole">
+          <span class="role-badge" [class.admin]="userRole === 'ADMIN'" [class.usuario]="userRole === 'USUARIO'">
+            {{ userRole }}
+          </span>
+        </p>
+      </div>
+
+      <nav>
+        <ul>
+      
+          <li *ngIf="isAdmin()">
+            <a routerLink="/dashboard" routerLinkActive="active">
+              <mat-icon>dashboard</mat-icon> Dashboard
+            </a>
+          </li>
+
+          <!--  Productos - ADMIN y USUARIO -->
+          <li>
+            <a routerLink="/productos" routerLinkActive="active">
+              <mat-icon>category</mat-icon> Productos
+            </a>
+          </li>
+
+          <!--  Inventario - ADMIN y USUARIO -->
+          <li>
+            <a routerLink="/inventario" routerLinkActive="active">
+              <mat-icon>warehouse</mat-icon> Inventario
+            </a>
+          </li>
+
+          <!--  Pedidos - ADMIN y USUARIO -->
+          <li>
+            <a routerLink="/pedidos" routerLinkActive="active">
+              <mat-icon>shopping_cart</mat-icon> Pedidos
+            </a>
+          </li>
+
+          <!-- Clientes - ADMIN y USUARIO -->
+          <li>
+            <a routerLink="/clientes" routerLinkActive="active">
+              <mat-icon>group</mat-icon> Clientes
+            </a>
+          </li>
+
+          <!-- Gestión de Vendedores - Solo ADMIN -->
+          <li *ngIf="isAdmin()">
+            <a routerLink="/usuarios" routerLinkActive="active">
+              <mat-icon>trending_up</mat-icon> Gestión de Vendedores
+            </a>
+          </li>
+          
+          <!-- Proveedores - Solo ADMIN -->
+          <li *ngIf="isAdmin()">
+            <a routerLink="/proveedores" routerLinkActive="active">
+              <mat-icon>local_shipping</mat-icon> Proveedores
+            </a>
+          </li>
+          
+          <!--  Pedido Proveedor - Solo ADMIN -->
+          <li *ngIf="isAdmin()">
+            <a routerLink="/supplier_product" routerLinkActive="active">
+              <mat-icon>scale</mat-icon> Pedido Proveedor
+            </a>
+          </li>
+        </ul>
+
+        <!--  Botón de cerrar sesión -->
+        <div class="logout-section">
+          <button mat-raised-button color="warn" class="logout-btn" (click)="logout()">
+            <mat-icon>logout</mat-icon> Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button
+      mat-icon-button
+      class="hamburger"
+      (click)="toggleSidebar()"
+      *ngIf="isScreenSmall"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <main class="content-scroll">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

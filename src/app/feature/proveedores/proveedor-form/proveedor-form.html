@@ -1,0 +1,78 @@
+<div class="modal-overlay">
+    <div class="modal">
+        <h3>{{ proveedor ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h3>
+
+        <form #formProveedor="ngForm" (ngSubmit)="onSubmit(formProveedor)" novalidate>
+
+            <!-- Empresa -->
+            <div class="form-group" [class.invalid]="empresa.invalid && empresa.touched">
+                <input type="text" id="empresa" name="company_name" [(ngModel)]="proveedorData.company_name" required
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" #empresa="ngModel" (keypress)="soloLetrasConEspacio($event)" />
+                <label for="empresa">Empresa</label>
+                <div *ngIf="empresa.invalid && empresa.touched" class="error-message">
+                    {{ empresa.errors?.['required'] ? 'La empresa es obligatoria.' : 'Solo se permiten letras y espacios.' }}
+                </div>
+            </div>
+
+            <!-- RUC -->
+            <div class="form-group" [class.invalid]="ruc.invalid && ruc.touched">
+                <input type="text" id="ruc" name="ruc" [(ngModel)]="proveedorData.ruc" required pattern="^[0-9]{11}$"
+                    maxlength="11" #ruc="ngModel" (keypress)="soloNumeros($event)" />
+                <label for="ruc">RUC</label>
+                <div *ngIf="ruc.invalid && ruc.touched" class="error-message">
+                    {{ ruc.errors?.['required'] ? 'El RUC es obligatorio.' : 'Debe tener 11 dígitos numéricos.' }}
+                </div>
+            </div>
+
+            <!-- Dirección -->
+            <div class="form-group" [class.invalid]="address.invalid && address.touched">
+                <input type="text" id="address" name="address" [(ngModel)]="proveedorData.address" required
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s,.-]+$"#address="ngModel"
+                    (keypress)="soloLetrasConEspacio($event)" />
+                <label for="address">Dirección</label>
+                <div *ngIf="address.invalid && address.touched" class="error-message">
+                    La dirección es obligatoria y solo debe contener letras y espacios.
+                </div>
+            </div>
+
+            <!-- Correo -->
+            <div class="form-group" [class.invalid]="gmail.invalid && gmail.touched">
+                <input type="email" id="gmail" name="gmail" [(ngModel)]="proveedorData.gmail" required email
+                    #gmail="ngModel" />
+                <label for="gmail">Correo</label>
+                <div *ngIf="gmail.invalid && gmail.touched" class="error-message">
+                    Ingresa un correo válido.
+                </div>
+            </div>
+
+            <!-- Celular -->
+            <div class="form-group" [class.invalid]="cell.invalid && cell.touched">
+                <input type="text" id="cell_number" name="cell_number" [(ngModel)]="proveedorData.cell_number" required
+                    pattern="^[0-9]{9}$" maxlength="9" #cell="ngModel" (keypress)="soloNumeros($event)" />
+                <label for="cell_number">Celular</label>
+                <div *ngIf="cell.invalid && cell.touched" class="error-message">
+                    {{ cell.errors?.['required'] ? 'El celular es obligatorio.' : 'Debe tener 9 dígitos numéricos.' }}
+                </div>
+            </div>
+
+            <!-- Fecha de Registro -->
+            <div class="form-group" [class.invalid]="fecha_registro.invalid && fecha_registro.touched">
+                <input type="date" id="fecha_registro" name="fecha_registro" [(ngModel)]="proveedorData.fecha_registro"
+                    required #fecha_registro="ngModel" />
+                <label for="fecha_registro">Fecha de registro</label>
+                <div *ngIf="fecha_registro.invalid && fecha_registro.touched" class="error-message">
+                    La fecha de registro es obligatoria.
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="buttons">
+                <button type="submit" [disabled]="formProveedor.invalid">
+                    {{ proveedor ? 'Actualizar' : 'Guardar' }}
+                </button>
+                <button type="button" class="cancel-btn" (click)="onCancel()">Cancelar</button>
+            </div>
+
+        </form>
+    </div>
+</div>

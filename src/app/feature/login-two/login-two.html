@@ -1,0 +1,64 @@
+<!-- src/app/feature/login-two/login-two.html -->
+<div class="login-container" [@fadeIn]>
+  <h1 class="title">Agroinversiones</h1>
+  <p class="subtitle">Sistema de Gestión de Productos Agrícolas</p>
+
+  <div class="tab-selector">
+    <button 
+      [class.active]="selectedRole === 'cliente'" 
+      (click)="selectRole('cliente')"
+      [disabled]="isLoading"
+      type="button">
+      👤 Cliente
+    </button>
+    <button 
+      [class.active]="selectedRole === 'admin'" 
+      (click)="selectRole('admin')"
+      [disabled]="isLoading"
+      type="button">
+      🔐 Admin / Usuario
+    </button>
+  </div>
+
+  <div class="form-box">
+    <h2>Iniciar Sesión como {{ selectedRole | titlecase }}</h2>
+    <p>Ingrese sus credenciales para acceder al sistema.</p>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">
+      ⚠️ {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <label for="email">Usuario / Correo Electrónico</label>
+      <input 
+        id="email" 
+        type="text" 
+        [(ngModel)]="email"
+        name="email"
+        placeholder="usuario o correo@ejemplo.com" 
+        [disabled]="isLoading"
+        required>
+
+      <label for="password">Contraseña</label>
+      <input 
+        id="password" 
+        type="password" 
+        [(ngModel)]="password"
+        name="password"
+        placeholder="••••••••"
+        [disabled]="isLoading"
+        required>
+
+      <button 
+        type="submit" 
+        class="login-button"
+        [disabled]="isLoading">
+        <span *ngIf="!isLoading">Iniciar Sesión</span>
+        <span *ngIf="isLoading">⏳ Cargando...</span>
+      </button>
+    </form>
+
+    <p class="register-text">¿No tiene una cuenta? <a href="#">Regístrese aquí</a></p>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="layout">
+  
+  <input type="checkbox" id="toggleSidebar" class="toggle-checkbox" />
+
+  <label for="toggleSidebar" class="hamburger">☰</label>
+
+  <nav class="sidebar">
+    <!--  Logo y nombre del usuario -->
+    <div class="sidebar-header">
+      <h1 class="logo">Agroinversiones</h1>
+      <div class="user-welcome" *ngIf="username">
+        <i class="fas fa-user-circle"></i>
+        <p>Hola, <strong>{{ username }}</strong></p>
+        <span class="user-role-badge" *ngIf="userRole">{{ userRole }}</span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <!--  Productos -->
+      <li routerLink="/cliente/client-product" routerLinkActive="active">
+        <i class="fas fa-box"></i>
+        <span>Productos</span>
+      </li>
+
+      <!--  Carrito -->
+      <li routerLink="/cliente/client-cart" routerLinkActive="active">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Carrito</span>
+      </li>
+
+      <!--  Mis Pedidos -->
+      <li routerLink="/cliente/mis-pedidos" routerLinkActive="active">
+        <i class="fas fa-receipt"></i>
+        <span>Mis Pedidos</span>
+      </li>
+
+      <!--  Mi Perfil -->
+      <li routerLink="/cliente/client-profile" routerLinkActive="active">
+        <i class="fas fa-user-circle"></i>
+        <span>Mi Perfil</span>
+      </li>
+
+      <!--  Comparación -->
+      <li routerLink="/cliente/comparacion" routerLinkActive="active">
+        <i class="fas fa-balance-scale"></i>
+        <span>Comparación</span>
+      </li>
+    </ul>
+
+    <!-- ✅ Botón de Cerrar Sesión -->
+    <div class="logout-container">
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Cerrar Sesión
+      </button>
+    </div>
+  </nav>
+
+  <main class="contenido">
+    <!--  Contenido protegido solo para clientes autenticados -->
+    <div *ngIf="isAuthenticated() && hasClienteRole()">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!--  Mensaje de acceso denegado (por si acaso) -->
+    <div *ngIf="!isAuthenticated() || !hasClienteRole()" class="access-denied">
+      <i class="fas fa-lock"></i>
+      <h2>Acceso Denegado</h2>
+      <p>No tienes permisos para acceder a esta sección.</p>
+    </div>
+  </main>
+</div>

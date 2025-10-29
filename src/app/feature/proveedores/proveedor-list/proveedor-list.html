@@ -1,0 +1,96 @@
+<div class="proveedor-container">
+  <!-- Encabezado -->
+  <header>
+    <h2>Proveedores Registrados</h2>
+    <button (click)="abrirFormulario()">+ Añadir Proveedor</button>
+  </header>
+
+  <!-- Filtros -->
+  <div class="filter-section">
+    <input type="text" [(ngModel)]="searchTerm" (input)="filtrarProveedores()" placeholder="Buscar proveedores..." />
+
+    <div class="filter-buttons">
+      <button [class.active-filter]="currentFilter === 'active'" (click)="setFilter('active')">
+        Activos ({{ activosCount }})
+      </button>
+
+      <button [class.active-filter]="currentFilter === 'inactive'" (click)="setFilter('inactive')">
+        Inactivos ({{ inactivosCount }})
+      </button>
+
+      <button [class.active-filter]="currentFilter === 'all'" (click)="setFilter('all')">
+        Todos ({{ totalCount }})
+      </button>
+
+      <button class="btn-report" (click)="reportPdf()">
+        <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon> Reporte
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="tabla-estilizada" *ngIf="proveedoresFiltrados.length > 0; else noData">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Empresa</th>
+          <th>RUC</th>
+          <th>Dirección</th>
+          <th>Email</th>
+          <th>Celular</th>
+          <th>Registro</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proveedor of proveedoresFiltrados">
+          <td>{{ proveedor.id }}</td>
+          <td>{{ proveedor.company_name }}</td>
+          <td>{{ proveedor.ruc }}</td>
+          <td>{{ proveedor.address }}</td>
+          <td>{{ proveedor.gmail }}</td>
+          <td>{{ proveedor.cell_number }}</td>
+          <td>{{ proveedor.fecha_registro | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <span class="badge-estado" [class.activo]="proveedor.state === 'A'"
+              [class.inactivo]="proveedor.state === 'I'">
+              {{ proveedor.state === 'A' ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="actions">
+            <ng-container *ngIf="proveedor.state === 'A' || (currentFilter === 'all' && proveedor.state === 'A')">
+              <button class="btn-accion editar" (click)="editar(proveedor)">
+                <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+              </button>
+              <button *ngIf="proveedor.id !== undefined" class="btn-accion eliminar" (click)="eliminar(proveedor.id!)">
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="proveedor.state === 'I'">
+              <button *ngIf="proveedor.id !== undefined" class="btn-accion restaurar"
+                (click)="restaurar(proveedor.id!)">
+                <fa-icon [icon]="['fas', 'rotate-right']"></fa-icon>
+              </button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Si no hay datos -->
+  <ng-template #noData>
+    <div class="no-data">
+      <p>No hay proveedores registrados.</p>
+    </div>
+  </ng-template>
+
+<app-proveedor-form
+  *ngIf="mostrarFormulario"
+  [proveedor]="proveedorParaEditar"
+  (guardar)="guardarProveedor($event)"
+  (cerrar)="cerrarFormulario()"
+></app-proveedor-form>

@@ -1,0 +1,461 @@
+// ===========================
+// CONTENEDOR PRINCIPAL DEL DIÁLOGO
+// ===========================
+.mat-dialog-container {
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+// ===========================
+// ENCABEZADO DEL DIÁLOGO
+// ===========================
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%);
+  color: #ffffff;
+  margin: 0;
+  border-bottom: 3px solid #f5f5f5;
+
+  .dialog-main-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &::before {
+      content: '💰';
+      font-size: 26px;
+    }
+  }
+
+  .close-button {
+    color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: rotate(90deg);
+    }
+
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+// ===========================
+// CONTENIDO DEL DIÁLOGO
+// ===========================
+.dialog-content-padding {
+  padding: 32px;
+  background-color: #fafafa;
+
+  @media (max-width: 600px) {
+    padding: 24px 16px;
+  }
+}
+
+.dialog-subtitle {
+  color: #546e7a;
+  font-size: 15px;
+  margin-bottom: 28px;
+  font-weight: 400;
+  padding: 16px;
+  background-color: #f3e5f5;
+  border-left: 4px solid #6a1b9a;
+  border-radius: 4px;
+  line-height: 1.6;
+
+  strong {
+    color: #333;
+    font-weight: 600;
+  }
+}
+
+// ===========================
+// FORMULARIO DE REGISTRO DE VENTA
+// ===========================
+.sale-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  // ===========================
+  // ESTILOS DE MAT-FORM-FIELD
+  // ===========================
+  mat-form-field {
+    width: 100%;
+
+    .mat-form-field-wrapper {
+      padding-bottom: 0.5em;
+    }
+
+    .mat-form-field-flex {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 0.8em 1.2em;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+
+      &:hover {
+        background-color: #f9f9f9;
+        border-color: #e0e0e0;
+      }
+    }
+
+    .mat-form-field-outline {
+      border-radius: 12px !important;
+      border-color: #cfd8dc;
+    }
+
+    .mat-form-field-outline-thick {
+      border-width: 2px !important;
+    }
+
+    &.mat-focused {
+      .mat-form-field-flex {
+        background-color: #ffffff;
+        border-color: #6a1b9a;
+      }
+
+      .mat-form-field-outline-thick {
+        color: #6a1b9a !important;
+        border-color: #6a1b9a !important;
+      }
+
+      .mat-form-field-label {
+        color: #6a1b9a !important;
+      }
+    }
+
+    .mat-form-field-label {
+      color: #78909c;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .mat-input-element {
+      color: #37474f;
+      font-size: 16px;
+      font-weight: 500;
+
+      &::placeholder {
+        color: #b0bec5;
+        font-weight: 400;
+      }
+    }
+
+    .mat-form-field-infix {
+      padding-top: 0.8em;
+      padding-bottom: 0.4em;
+    }
+
+    .mat-error {
+      font-size: 12px;
+      color: #e53935;
+      margin-top: 4px;
+      font-weight: 500;
+      padding-left: 4px;
+    }
+
+    // Estilos para campos inválidos
+    &.mat-form-field-invalid {
+      .mat-form-field-flex {
+        border-color: #e53935;
+      }
+
+      .mat-form-field-outline-thick {
+        color: #e53935 !important;
+      }
+
+      .mat-form-field-label {
+        color: #e53935 !important;
+      }
+    }
+  }
+
+  // ===========================
+  // ESTILOS PARA INPUTS DE NÚMERO
+  // ===========================
+  input[type='number'] {
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.5px;
+
+    // Ocultar flechas en Chrome, Safari, Edge
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    // Ocultar flechas en Firefox
+    &[type='number'] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+  }
+
+  // ===========================
+  // PREFIX PARA INPUTS (S/, ×)
+  // ===========================
+  .input-prefix {
+    font-weight: 700;
+    color: #6a1b9a;
+    font-size: 16px;
+    margin-right: 4px;
+  }
+
+  // ===========================
+  // HINTS DE LOS CAMPOS
+  // ===========================
+  .mat-hint {
+    color: #90a4ae;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  // ===========================
+  // RESUMEN DE LA VENTA
+  // ===========================
+  .sale-summary {
+    margin-top: 8px;
+    animation: slideDown 0.3s ease-out;
+
+    .summary-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+      border-radius: 12px;
+      border-left: 4px solid #6a1b9a;
+      box-shadow: 0 2px 8px rgba(106, 27, 154, 0.15);
+
+      mat-icon {
+        font-size: 32px;
+        height: 32px;
+        width: 32px;
+        color: #6a1b9a;
+      }
+
+      .summary-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .summary-label {
+          font-size: 12px;
+          color: #6a1b9a;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+          font-size: 16px;
+          color: #333;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// ===========================
+// PIE DE PÁGINA CON ACCIONES
+// ===========================
+.dialog-actions-footer {
+  padding: 20px 32px;
+  border-top: 2px solid #eceff1;
+  gap: 16px;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (max-width: 600px) {
+    flex-direction: column-reverse;
+    padding: 16px;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  button {
+    height: 52px;
+    padding: 0 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  .mat-flat-button.mat-primary {
+    background-color: #6a1b9a !important;
+    color: #fff !important;
+
+    &:hover:not([disabled]) {
+      background-color: #4a148c !important;
+    }
+
+    &:disabled {
+      background-color: #bdbdbd !important;
+      color: #ffffff !important;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  .mat-stroked-button {
+    border: 2px solid #90a4ae !important;
+    color: #546e7a !important;
+    background-color: #ffffff !important;
+
+    &:hover {
+      border-color: #37474f !important;
+      color: #37474f !important;
+      background-color: #f5f5f5 !important;
+    }
+  }
+}
+
+// ===========================
+// ANIMACIONES
+// ===========================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 100px;
+  }
+}
+
+.sale-register-form {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// ===========================
+// INDICADORES VISUALES
+// ===========================
+.sale-register-form {
+  mat-form-field {
+    position: relative;
+
+    // Añadir icono de moneda para el campo de monto
+    &:first-child {
+      .mat-form-field-flex::before {
+        content: 'S/';
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #78909c;
+        font-weight: 600;
+        font-size: 14px;
+        z-index: 1;
+      }
+
+      .mat-form-field-infix {
+        padding-left: 32px;
+      }
+    }
+
+    // Añadir icono para el campo de cantidad
+    &:last-child {
+      .mat-form-field-flex::before {
+        content: '×';
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #78909c;
+        font-weight: 700;
+        font-size: 18px;
+        z-index: 1;
+      }
+
+      .mat-form-field-infix {
+        padding-left: 32px;
+      }
+    }
+  }
+}
+
+// ===========================
+// MEJORAS RESPONSIVE
+// ===========================
+@media (max-width: 480px) {
+  .dialog-header {
+    padding: 20px 16px;
+
+    .dialog-main-title {
+      font-size: 20px;
+
+      &::before {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .dialog-content-padding {
+    padding: 20px 16px;
+  }
+
+  .dialog-subtitle {
+    font-size: 14px;
+    padding: 12px;
+  }
+}

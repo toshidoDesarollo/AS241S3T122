@@ -1,0 +1,87 @@
+<app-producto-form *ngIf="mostrarFormulario" [producto]="productoParaEditar"
+    (guardar)="procesarProductoGuardado($event)" (cerrar)="cerrarFormulario()">
+</app-producto-form>
+
+<header>
+    <h2>Productos Registrados</h2>
+    <button (click)="abrirFormulario()" class="btn-agregar">
+        <fa-icon [icon]="['fas', 'seedling']"></fa-icon>
+        &nbsp; + Añadir Producto
+    </button>
+</header>
+
+<div class="filter-section">
+    <input type="text" placeholder="Buscar productos..." [(ngModel)]="searchTerm" (input)="filtrarProductos()" />
+    <div class="filter-buttons">
+        <button [class.active-filter]="currentFilter === 'active'" (click)="setFilter('active')">
+            Activos ({{ activosCount }})
+        </button>
+        <button [class.active-filter]="currentFilter === 'inactive'" (click)="setFilter('inactive')">
+            Inactivos ({{ inactivosCount }})
+        </button>
+        <button [class.active-filter]="currentFilter === 'all'" (click)="setFilter('all')">
+            Todos ({{ totalCount }})
+        </button>
+        <button class="btn-reporte" (click)="reportPdf()">
+            G Reporte
+        </button>
+    </div>
+</div>
+
+<table class="tabla-estilizada">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th>Unidad de medida</th>
+            <th>Precio unitario</th>
+            <th>Stock mínimo</th>
+            <th>Toxicidad</th>
+            <th>Vencimiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let producto of productosFiltrados">
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.name }}</td>
+            <td>{{ producto.brand }}</td>
+            <td>{{ producto.categories | codeToLabel: categoryMap }}</td>
+            <td>{{ producto.unit_measure | codeToLabel: unitMap }}</td>
+            <td>{{ producto.unit_price | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</td>
+            <td>{{ producto.minimum_stock }}</td>
+            <td>{{ producto.toxicity | codeToLabel: toxicityMap }}</td>
+            <td>{{ producto.expiration_date }}</td>
+            <td>
+                <span [ngClass]="{
+          'badge-estado': true,
+          'activo': producto.state === 'A',
+          'inactivo': producto.state === 'I'
+        }">
+                    {{ producto.state === 'A' ? 'Activo' : (producto.state === 'I' ? 'Inactivo' : producto.state) }}
+                </span>
+            </td>
+            <td>
+                <ng-container *ngIf="producto.state === 'A' || (currentFilter === 'all' && producto.state === 'A')">
+                    <button class="btn-accion editar" (click)="editar(producto)">
+                        <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+                    </button>
+                    <button *ngIf="producto.id !== undefined" class="btn-accion eliminar"
+                        (click)="eliminar(producto.id!)">
+                        <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                    </button>
+                </ng-container>
+
+                <ng-container *ngIf="producto.state === 'I'">
+                    <button *ngIf="producto.id !== undefined" class="btn-accion restaurar"
+                        (click)="restaurar(producto.id!)">
+                        <fa-icon [icon]="['fas', 'rotate-right']"></fa-icon>
+                    </button>
+                </ng-container>
+            </td>
+        </tr>
+    </tbody>
+</table>

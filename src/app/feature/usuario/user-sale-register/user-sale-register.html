@@ -1,0 +1,95 @@
+<h2 mat-dialog-title class="dialog-header">
+  <span class="dialog-main-title">Registrar Venta</span>
+  <button mat-icon-button mat-dialog-close class="close-button" (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content class="dialog-content-padding">
+  <p class="dialog-subtitle">
+    Registra una nueva venta para: <strong>{{ userName }}</strong>
+  </p>
+
+  <form [formGroup]="saleForm" class="sale-register-form">
+    
+    <!-- Campo: Monto de la Venta -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Monto de la Venta</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="saleAmount"
+        placeholder="Ej: 150.75"
+        step="0.01"
+        required
+      />
+      <span matPrefix class="input-prefix">S/&nbsp;</span>
+      <mat-hint align="start">Ingresa el monto total de la venta</mat-hint>
+      <mat-error *ngIf="saleForm.get('saleAmount')?.hasError('required') && saleForm.get('saleAmount')?.touched">
+        El monto es obligatorio
+      </mat-error>
+      <mat-error *ngIf="saleForm.get('saleAmount')?.hasError('min') && saleForm.get('saleAmount')?.touched">
+        El monto debe ser mayor a 0
+      </mat-error>
+      <mat-error *ngIf="saleForm.get('saleAmount')?.hasError('pattern') && saleForm.get('saleAmount')?.touched">
+        Formato inválido (ej: 150.75)
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo: Cantidad -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Cantidad de Productos</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="quantity"
+        placeholder="Ej: 1, 2, 5"
+        min="1"
+        step="1"
+        required
+      />
+      <span matPrefix class="input-prefix">×&nbsp;</span>
+      <mat-hint align="start">Cantidad de productos vendidos</mat-hint>
+      <mat-error *ngIf="saleForm.get('quantity')?.hasError('required') && saleForm.get('quantity')?.touched">
+        La cantidad es obligatoria
+      </mat-error>
+      <mat-error *ngIf="saleForm.get('quantity')?.hasError('min') && saleForm.get('quantity')?.touched">
+        Debe ser al menos 1
+      </mat-error>
+      <mat-error *ngIf="saleForm.get('quantity')?.hasError('pattern') && saleForm.get('quantity')?.touched">
+        Debe ser un número entero
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Resumen Visual (Opcional) -->
+    <div class="sale-summary" *ngIf="saleForm.valid">
+      <div class="summary-card">
+        <mat-icon>receipt</mat-icon>
+        <div class="summary-content">
+          <span class="summary-label">Resumen</span>
+          <span class="summary-value">
+            {{ saleForm.get('quantity')?.value }} producto(s) × S/ {{ saleForm.get('saleAmount')?.value }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions-footer">
+  <button mat-stroked-button color="warn" (click)="onCancel()" class="cancel-button">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onRegister()"
+    [disabled]="saleForm.invalid"
+    class="submit-button"
+  >
+    <mat-icon>save</mat-icon>
+    Registrar Venta
+  </button>
+</mat-dialog-actions>
